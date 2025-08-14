@@ -1,15 +1,16 @@
 ﻿using GamePlatform.Models;
+using GamePlatform.Services.Contracts;
 using StackExchange.Redis;
 
 namespace GamePlatform.Services;
 
-public class PlayerService
+public class PlayerService : IPlayerService
 {
-    private readonly RedisService _redis;
+    private readonly RedisManager _redis;
     private const string PlayerKeyPrefix = "player:";
     private const string PlayerStatsPrefix = "player:stats:";
 
-    public PlayerService(RedisService redis) => _redis = redis;
+    public PlayerService(RedisManager redis) => _redis = redis;
 
     // Store player profile (Hash)
     public async Task CreateOrUpdatePlayerAsync(Player player)

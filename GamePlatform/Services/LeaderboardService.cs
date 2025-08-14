@@ -1,13 +1,14 @@
-﻿using StackExchange.Redis;
+﻿using GamePlatform.Services.Contracts;
+using StackExchange.Redis;
 
 namespace GamePlatform.Services;
 
-public class LeaderboardService
+public class LeaderboardService : ILeaderboardService
 {
-    private readonly RedisService _redis;
+    private readonly RedisManager _redis;
     private const string LeaderboardKey = "leaderboard";
 
-    public LeaderboardService(RedisService redis) => _redis = redis;
+    public LeaderboardService(RedisManager redis) => _redis = redis;
 
     public async Task AddScoreAsync(string playerId, int points)
     {

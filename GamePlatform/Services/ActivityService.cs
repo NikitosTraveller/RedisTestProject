@@ -1,12 +1,14 @@
-﻿namespace GamePlatform.Services;
+﻿using GamePlatform.Services.Contracts;
 
-public class ActivityService
+namespace GamePlatform.Services;
+
+public class ActivityService : IActivityService
 {
-    private readonly RedisService _redis;
+    private readonly RedisManager _redis;
     private const string DailyLoginPrefix = "activity:daily:";
     private const string UniquePlayersKey = "activity:unique";
 
-    public ActivityService(RedisService redis) => _redis = redis;
+    public ActivityService(RedisManager redis) => _redis = redis;
 
     // Track daily login using Bitmap
     public async Task MarkLoginAsync(string playerId)

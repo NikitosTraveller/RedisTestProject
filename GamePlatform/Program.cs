@@ -1,5 +1,6 @@
 
 using GamePlatform.Services;
+using GamePlatform.Services.Contracts;
 
 namespace GamePlatform
 {
@@ -9,12 +10,12 @@ namespace GamePlatform
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddSingleton<RedisService>();
-            builder.Services.AddSingleton<LeaderboardService>();
-            builder.Services.AddSingleton<RateLimiterService>();
-            builder.Services.AddSingleton<ChatService>();
-            builder.Services.AddSingleton<PlayerService>();
-            builder.Services.AddSingleton<ActivityService>();
+            builder.Services.AddSingleton<RedisManager>();
+            builder.Services.AddSingleton<ILeaderboardService, LeaderboardService>();
+            builder.Services.AddSingleton<IRateLimiterService, RateLimiterService>();
+            builder.Services.AddSingleton<IChatService, ChatService>();
+            builder.Services.AddSingleton<IPlayerService, PlayerService>();
+            builder.Services.AddSingleton<IActivityService, ActivityService>();
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();

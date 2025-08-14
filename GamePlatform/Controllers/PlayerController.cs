@@ -1,5 +1,6 @@
 ﻿using GamePlatform.Models;
 using GamePlatform.Services;
+using GamePlatform.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GamePlatform.Controllers;
@@ -8,10 +9,12 @@ namespace GamePlatform.Controllers;
 [ApiController]
 public class PlayerController : ControllerBase
 {
-    private readonly PlayerService _playerService;
-    private readonly ActivityService _activityService;
+    private readonly IPlayerService _playerService;
+    private readonly IActivityService _activityService;
 
-    public PlayerController(PlayerService playerService, ActivityService activityService)
+    public PlayerController(
+        IPlayerService playerService, 
+        IActivityService activityService)
     {
         _playerService = playerService;
         _activityService = activityService;

@@ -1,10 +1,12 @@
-﻿namespace GamePlatform.Services;
+﻿using GamePlatform.Services.Contracts;
 
-public class RateLimiterService
+namespace GamePlatform.Services;
+
+public class RateLimiterService : IRateLimiterService
 {
-    private readonly RedisService _redis;
+    private readonly RedisManager _redis;
 
-    public RateLimiterService(RedisService redis) => _redis = redis;
+    public RateLimiterService(RedisManager redis) => _redis = redis;
 
     public async Task<bool> IsAllowedAsync(string key, int limit, TimeSpan window)
     {

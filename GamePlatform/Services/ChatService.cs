@@ -1,11 +1,13 @@
 ﻿using GamePlatform.Models;
+using GamePlatform.Services.Contracts;
 
 namespace GamePlatform.Services;
 
-public class ChatService
+public class ChatService : IChatService
 {
-    private readonly RedisService _redis;
-    public ChatService(RedisService redis) => _redis = redis;
+    private readonly RedisManager _redis;
+
+    public ChatService(RedisManager redis) => _redis = redis;
 
     public async Task PublishAsync(string channel, Message message)
     {
