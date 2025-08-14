@@ -5,10 +5,10 @@ namespace GamePlatform.Services;
 
 public class LeaderboardService : ILeaderboardService
 {
-    private readonly RedisManager _redis;
+    private readonly IRedisService _redis;
     private const string LeaderboardKey = "leaderboard";
 
-    public LeaderboardService(RedisManager redis) => _redis = redis;
+    public LeaderboardService(IRedisService redis) => _redis = redis;
 
     public async Task AddScoreAsync(string playerId, int points)
     {

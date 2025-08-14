@@ -10,7 +10,7 @@ namespace GamePlatform
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddSingleton<RedisManager>();
+            builder.Services.AddSingleton<IRedisService, RedisService>();
             builder.Services.AddSingleton<ILeaderboardService, LeaderboardService>();
             builder.Services.AddSingleton<IRateLimiterService, RateLimiterService>();
             builder.Services.AddSingleton<IChatService, ChatService>();

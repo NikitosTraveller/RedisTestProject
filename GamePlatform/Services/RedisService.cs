@@ -1,8 +1,9 @@
-﻿using StackExchange.Redis;
+﻿using GamePlatform.Services.Contracts;
+using StackExchange.Redis;
 
 namespace GamePlatform.Services;
 
-public class RedisManager
+public class RedisService : IRedisService
 {
     private readonly ConnectionMultiplexer _redis;
 
@@ -10,7 +11,7 @@ public class RedisManager
 
     public ISubscriber Subscriber => _redis.GetSubscriber();
 
-    public RedisManager(IConfiguration config)
+    public RedisService(IConfiguration config)
     {
         _redis = ConnectionMultiplexer.Connect(config.GetConnectionString("Redis") ?? config["Redis:Connection"]);
     }

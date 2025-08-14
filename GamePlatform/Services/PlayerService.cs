@@ -6,11 +6,11 @@ namespace GamePlatform.Services;
 
 public class PlayerService : IPlayerService
 {
-    private readonly RedisManager _redis;
+    private readonly IRedisService _redis;
     private const string PlayerKeyPrefix = "player:";
     private const string PlayerStatsPrefix = "player:stats:";
 
-    public PlayerService(RedisManager redis) => _redis = redis;
+    public PlayerService(IRedisService redis) => _redis = redis;
 
     // Store player profile (Hash)
     public async Task CreateOrUpdatePlayerAsync(Player player)

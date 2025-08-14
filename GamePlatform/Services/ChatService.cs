@@ -5,9 +5,9 @@ namespace GamePlatform.Services;
 
 public class ChatService : IChatService
 {
-    private readonly RedisManager _redis;
+    private readonly IRedisService _redis;
 
-    public ChatService(RedisManager redis) => _redis = redis;
+    public ChatService(IRedisService redis) => _redis = redis;
 
     public async Task PublishAsync(string channel, Message message)
     {
