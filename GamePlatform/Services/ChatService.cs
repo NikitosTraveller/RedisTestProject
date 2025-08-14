@@ -5,19 +5,23 @@ namespace GamePlatform.Services;
 
 public class ChatService : IChatService
 {
-    private readonly IRedisService _redis;
+    private readonly IRedisService _redisService;
 
-    public ChatService(IRedisService redis) => _redis = redis;
+    public ChatService(IRedisService redisService) => _redisService = redisService;
 
-    public async Task PublishAsync(string channel, Message message)
+    public async Task PublishAsync(
+        string channel, 
+        Message message)
     {
         var json = System.Text.Json.JsonSerializer.Serialize(message);
-        await _redis.Subscriber.PublishAsync(channel, json);
+        await _redisService.Subscriber.PublishAsync(channel, json);
     }
 
-    public void Subscribe(string channel, Action<Message> handler)
+    public void Subscribe(
+        string channel, 
+        Action<Message> handler)
     {
-        _redis.Subscriber.Subscribe(channel, (chan, val) =>
+        _redisService.Subscriber.Subscribe(channel, (chan, val) =>
         {
             var msg = System.Text.Json.JsonSerializer.Deserialize<Message>(val!);
             handler(msg!);

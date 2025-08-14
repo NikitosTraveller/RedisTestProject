@@ -4,7 +4,9 @@ namespace GamePlatform.Services.Contracts;
 
 public interface ILeaderboardService
 {
-    public Task AddScoreAsync(string playerId, int points);
+    public Task AddScoreAsync(
+        string playerId, 
+        int points);
 
     public Task<double?> GetRankAsync(string playerId);
 

@@ -4,14 +4,17 @@ namespace GamePlatform.Services;
 
 public class RateLimiterService : IRateLimiterService
 {
-    private readonly IRedisService _redis;
+    private readonly IRedisService _redisService;
 
-    public RateLimiterService(IRedisService redis) => _redis = redis;
+    public RateLimiterService(IRedisService redisService) => _redisService = redisService;
 
-    public async Task<bool> IsAllowedAsync(string key, int limit, TimeSpan window)
+    public async Task<bool> IsAllowedAsync(
+        string key, 
+        int limit, 
+        TimeSpan window)
     {
-        var current = await _redis.Db.StringIncrementAsync(key);
-        if (current == 1) await _redis.Db.KeyExpireAsync(key, window);
+        var current = await _redisService.Db.StringIncrementAsync(key);
+        if (current == 1) await _redisService.Db.KeyExpireAsync(key, window);
         return current <= limit;
     }
 }

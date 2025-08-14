@@ -8,38 +8,38 @@ namespace GamePlatform.Controllers;
 [ApiController]
 public class LeaderboardController : ControllerBase
 {
-    private readonly ILeaderboardService _leaderboard;
-    private readonly IRateLimiterService _rateLimiter;
+    private readonly ILeaderboardService _leaderboardService;
+    private readonly IRateLimiterService _rateLimiterService;
 
     public LeaderboardController(
-        ILeaderboardService service, 
-        IRateLimiterService rateLimiter)
+        ILeaderboardService leaderboardService, 
+        IRateLimiterService rateLimiterService)
     {
-        _leaderboard = service;
-        _rateLimiter = rateLimiter;
+        _leaderboardService = leaderboardService;
+        _rateLimiterService = rateLimiterService;
     }
 
     [HttpPost("score")]
     public async Task<IActionResult> SubmitScore([FromBody] Score score)
     {
-        if (!await _rateLimiter.IsAllowedAsync($"score:{score.PlayerId}", 5, TimeSpan.FromSeconds(10)))
+        if (!await _rateLimiterService.IsAllowedAsync($"score:{score.PlayerId}", 5, TimeSpan.FromSeconds(10)))
             return TooManyRequests("Rate limit exceeded.");
 
-        await _leaderboard.AddScoreAsync(score.PlayerId, score.Points);
+        await _leaderboardService.AddScoreAsync(score.PlayerId, score.Points);
         return Ok();
     }
 
     [HttpGet("top/{count}")]
     public async Task<IActionResult> GetTop(int count)
     {
-        var top = await _leaderboard.GetTopAsync(count);
+        var top = await _leaderboardService.GetTopAsync(count);
         return Ok(top.Select(e => new { PlayerId = e.Element, Score = e.Score }));
     }
 
     [HttpGet("rank/{playerId}")]
     public async Task<IActionResult> GetRank(string playerId)
     {
-        var rank = await _leaderboard.GetRankAsync(playerId);
+        var rank = await _leaderboardService.GetRankAsync(playerId);
         return Ok(new { PlayerId = playerId, Rank = rank });
     }
 
